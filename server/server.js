@@ -34,6 +34,16 @@ io.on("connection", (socket) => {
     io.emit("recieved-msg", message); // Send this message to EVERY connected socket
   });
 
+  socket.on("typing", (data) => {
+    // Broadcast to everyone else that someone is typing
+    socket.broadcast.emit("user-typing", data);
+  });
+
+  socket.on("add-reaction", (data) => {
+    // Broadcast reaction to all connected sockets
+    io.emit("recieved-reaction", data);
+  });
+
   socket.on("disconnect", () => {
     console.log("user Disconnected", socket.id); //Once a user is connected, they have their own socket
   });
